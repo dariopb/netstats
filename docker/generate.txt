@@ -1,0 +1,12 @@
+GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -v
+
+docker login -u dariob
+
+# alpine
+docker build -f docker/Dockerfile-alpine.txt -t dariob/netstats-alpine .
+docker tag dariob/netstats-alpine dariob/netstats-alpine:1.0
+docker tag dariob/netstats-alpine dariob/netstats-alpine:latest
+docker push dariob/netstats-alpine:latest
+docker push dariob/netstats-alpine:1.0
+
+docker run -it --rm -p 9999:9999 -e PORT=9999 dariob/netstats-alpine
